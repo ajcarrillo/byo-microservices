@@ -1,0 +1,35 @@
+{
+  "name": "byowave-microservice",
+  "version": "0.1.0",
+  "description": "Byowave Microservice",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start:dev": "env-cmd -f config/.env.development nodemon server",
+    "start:prod": "env-cmd -f config/.env.production node server",
+    "lint": "eslint --ext .js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "5.1.0",
+    "env-cmd": "10.1.0",
+    "express": "4.18.2",
+    "express-graphql": "0.12.0",
+    "express-validator": "6.14.3",
+    "graphql": "16.6.0",
+    "jsonwebtoken": "9.0.0",
+    "morgan": "1.10.0",
+    "mysql": "2.18.1",
+    "node-uuid": "1.4.8",
+    "winston": "3.8.2"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.16",
+    "eslint": "8.32.0",
+    "eslint-config-google": "0.14.0",
+    "jsdoc": "4.0.0",
+    "nodemon": "2.0.20"
+  }
+}
