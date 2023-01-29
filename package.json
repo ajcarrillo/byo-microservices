@@ -7,10 +7,11 @@
   "scripts": {
     "start:dev": "env-cmd -f config/.env.development nodemon server",
     "start:prod": "env-cmd -f config/.env.production node server",
-    "lint": "eslint --ext .js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:dev": "env-cmd -f config/.env.development node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:prod": "env-cmd -f config/.env.production node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint --ext .js"
   },
-  "author": "",
+  "author": "mark@byowave.com",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "5.1.0",
@@ -29,7 +30,9 @@
     "@types/express": "4.17.16",
     "eslint": "8.32.0",
     "eslint-config-google": "0.14.0",
+    "jest": "29.4.1",
     "jsdoc": "4.0.0",
-    "nodemon": "2.0.20"
+    "nodemon": "2.0.20",
+    "supertest": "^6.3.3"
   }
 }

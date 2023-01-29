@@ -1,4 +1,3 @@
-
 import { check, validationResult } from 'express-validator'
 
 import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
