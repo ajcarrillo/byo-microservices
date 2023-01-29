@@ -7,8 +7,8 @@
   "scripts": {
     "start:dev": "env-cmd -f config/.env.development nodemon server",
     "start:prod": "env-cmd -f config/.env.production node server",
-    "test:dev": "env-cmd -f config/.env.development node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:prod": "env-cmd -f config/.env.production node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "tests:dev": "env-cmd -f config/.env.development node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "tests:prod": "env-cmd -f config/.env.production node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint --ext .js"
   },
   "author": "mark@byowave.com",
