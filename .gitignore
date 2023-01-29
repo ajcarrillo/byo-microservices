@@ -1,3 +1,5 @@
 node_modules/
 logs/*
+!logs/Readme.md
 config/*
+!config/Readme.md
