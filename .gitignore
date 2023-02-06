@@ -3,3 +3,4 @@ logs/*
 !logs/Readme.md
 config/*
 !config/Readme.md
+coverage/

@@ -9,6 +9,7 @@
     "start:prod": "env-cmd -f config/.env.production node server",
     "tests:dev": "env-cmd -f config/.env.development node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "tests:prod": "env-cmd -f config/.env.production node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "tests:coverage": "env-cmd -f config/.env.development node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --coverage",
     "lint": "eslint --ext .js"
   },
   "author": "mark@byowave.com",
@@ -24,6 +25,7 @@
     "morgan": "1.10.0",
     "mysql": "2.18.1",
     "node-uuid": "1.4.8",
+    "nodemailer": "6.9.1",
     "winston": "3.8.2"
   },
   "devDependencies": {
@@ -33,6 +35,6 @@
     "jest": "29.4.1",
     "jsdoc": "4.0.0",
     "nodemon": "2.0.20",
-    "supertest": "^6.3.3"
+    "supertest": "6.3.3"
   }
 }
