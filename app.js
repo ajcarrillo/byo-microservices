@@ -3,6 +3,7 @@ import morgan from 'morgan'
 
 // import stripeRoutes from './api/controllers/stripe.js'
 import authRoutes from './api/controllers/auth.js'
+import controllerRoutes from './api/controllers/controllers.js'
 
 const app = express()
 
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 // API Routes
 // app.use('/api/stripe', stripeRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/controllers', controllerRoutes)
 
 // Route error handling
 app.use((req, res, next) => {
