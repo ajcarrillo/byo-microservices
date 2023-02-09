@@ -1,3 +1,6 @@
 node_modules/
-logs/
-config/
+logs/*
+!logs/Readme.md
+config/*
+!config/Readme.md
+coverage/
