@@ -1,7 +1,7 @@
 // import { check, validationResult } from 'express-validator'
 
 // import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
-import * as Controller from '../../lib/controller-lib.js'
+import * as Proteus from '../../lib/proteus-lib.js'
 
 /**
  * Auth endpoint heartbeat
@@ -12,23 +12,23 @@ import * as Controller from '../../lib/controller-lib.js'
 const heartbeat = (_req, res, _next) => {
   res.status(200).json({
     status: 200,
-    message: 'Controllers endpoint',
+    message: 'Proteus endpoint',
   })
 }
 
 /**
- * Returns a list of controller modules
- * @param {Express.Request} _req
+ * Returns a a user's application settings
+ * @param {Express.Request} req
  * @param {Express.Response} res
  * @param {*} _next
  */
-const getModuleList = async (_req, res, _next) => {
+const getProteusSettings = async (req, res, _next) => {
   try {
-    const modules = await Controller.getControllerModules()
+    const settings = await Proteus.getUserApplicationSettings(req.user.uid)
     res.status(200).json({
       status: 200,
       message: 'OK',
-      data: { version: '0.1.0', firmwareVersion: '0.3.2', modules },
+      data: { settings },
     })
   } catch (err) {
     res.status(401).json({
@@ -39,6 +39,6 @@ const getModuleList = async (_req, res, _next) => {
 }
 
 export {
-  getModuleList,
+  getProteusSettings,
   heartbeat,
 }
