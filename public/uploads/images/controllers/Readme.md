@@ -1,0 +1,1 @@
+The folder where user controller images are stored.

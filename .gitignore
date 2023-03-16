@@ -4,3 +4,5 @@ logs/*
 config/*
 !config/Readme.md
 coverage/
+public/uploads/images/controllers/*
+!public/uploads/images/controllers/Readme.md

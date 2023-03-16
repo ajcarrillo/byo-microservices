@@ -1,6 +1,6 @@
-// import { check, validationResult } from 'express-validator'
+import { check, validationResult } from 'express-validator'
 
-// import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
+import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
 import * as Proteus from '../../lib/proteus-lib.js'
 
 /**
@@ -31,14 +31,81 @@ const getProteusSettings = async (req, res, _next) => {
       data: { settings },
     })
   } catch (err) {
-    res.status(401).json({
-      status: 401,
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
+ * Creates a new proteus controller
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const createProteusController = async (req, res, _next) => {
+  await check('controllerName').not().isEmpty().trim().customSanitizer(removeHTMLTags).run(req)
+  await check('controllerConfig').not().isEmpty().trim().customSanitizer(removeHTMLTags).run(req)
+
+  const validationErr = validationResult(req)
+  if (!validationErr.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      message: validationErr.array(),
+    })
+  }
+
+  try {
+    const response = await Proteus.newProteusController(
+      req.user.uid,
+      req.file.originalname,
+      req.file.filename,
+      req.file.destination,
+      req.file.size.toString(),
+      req.file.mimetype,
+      req.body.controllerName,
+      req.body.controllerConfig,
+    )
+
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: { ...response },
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
+ * Gets a list of proteus controllers for the gallery
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const getProteusGalleryControllers = async (req, res, _next) => {
+  try {
+    const gallery = await Proteus.getProteusGalleryControllerList(req.user.uid)
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: { gallery },
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
       message: err.message,
     })
   }
 }
 
 export {
+  createProteusController,
+  getProteusGalleryControllers,
   getProteusSettings,
   heartbeat,
 }

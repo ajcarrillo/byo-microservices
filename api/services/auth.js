@@ -93,6 +93,14 @@ const signUp = async (req, res, _next) => {
   await check('password').isLength({ min: 8, max: 32 }).customSanitizer(removeHTMLTags).run(req)
   await check('email').isEmail().not().isEmpty().trim().run(req)
   await check('profileName').not().isEmpty().trim().customSanitizer(removeHTMLTags).run(req)
+  await check('accountType').custom((value) => {
+    if (value === 'disabled' || value === 'ableBodied') {
+      return true
+    } else {
+      return false
+    }
+  }).not().isEmpty().run(req)
+  await check('locale').isLength({ min: 5, max: 5 }).customSanitizer(removeHTMLTags).run(req)
 
   const validationErr = validationResult(req)
   if (!validationErr.isEmpty()) {
@@ -103,7 +111,14 @@ const signUp = async (req, res, _next) => {
   }
 
   try {
-    await Auth.signUpNewUser(req.body.email, req.body.password, req.body.profileName)
+    await Auth.signUpNewUser(
+      req.body.email,
+      req.body.password,
+      req.body.profileName,
+      req.body.accountType,
+      req.body.locale,
+    )
+
     res.status(200).json({
       status: 200,
       message: 'SIGNUP_COMPLETE',
