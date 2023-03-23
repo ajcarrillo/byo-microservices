@@ -1,10 +1,11 @@
 import express, { static as isStatic, raw, urlencoded, json } from 'express'
 import morgan from 'morgan'
 
-// import stripeRoutes from './api/controllers/stripe.js'
+import stripeRoutes from './api/controllers/stripe.js'
 import authRoutes from './api/controllers/auth.js'
 import controllerRoutes from './api/controllers/controllers.js'
 import proteusRoutes from './api/controllers/proteus.js'
+import shopRoutes from './api/controllers/shop.js'
 
 const app = express()
 
@@ -36,10 +37,11 @@ app.use((req, res, next) => {
 })
 
 // API Routes
-// app.use('/api/stripe', stripeRoutes)
+app.use('/api/stripe', stripeRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/controllers', controllerRoutes)
 app.use('/api/proteus', proteusRoutes)
+app.use('/api/shop', shopRoutes)
 
 // Route error handling
 app.use((req, res, next) => {

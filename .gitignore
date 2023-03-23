@@ -6,3 +6,5 @@ config/*
 coverage/
 public/uploads/images/controllers/*
 !public/uploads/images/controllers/Readme.md
+public/shop/images/*
+!public/shop/images/Readme.md
