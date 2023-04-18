@@ -27,6 +27,7 @@
     "mysql": "2.18.1",
     "node-uuid": "1.4.8",
     "nodemailer": "6.9.1",
+    "stripe": "11.17.0",
     "winston": "3.8.2"
   },
   "devDependencies": {

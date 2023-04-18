@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 const html = (params) => ({
   subject: 'Please Confirm Your Email',
-  body:`
+  body: `
   <table role="presentation" border="0" cellspacing="0" style="width:100%;">
     <td align="center" style="width:100%;height:100%;margin:0px;">
       <img 
@@ -46,7 +47,7 @@ const html = (params) => ({
     </td>
   </table>
   `,
-  })
+})
 
 const text = (params) => ({
   subject: 'Please Confirm Your Email',

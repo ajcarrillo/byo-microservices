@@ -1,8 +1,9 @@
-// import { check, validationResult } from 'express-validator'
+import Stripe from 'stripe'
 
-// import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
 import * as StripeUtils from '../../lib/stripe-lib.js'
 import logger from '../../logger/index.js'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 /**
  * Auth endpoint heartbeat
@@ -72,14 +73,14 @@ const webhookHandler = async (req, res, _next) => {
     break
   case 'account.application.deauthorized':
   case 'account.updated':
-    StripeUtils.webhookHandlerAccount(event.type, event.data.object)
+    // StripeUtils.webhookHandlerAccount(event.type, event.data.object)
     break
   case 'person.updated':
   case 'person.created':
-    StripeUtils.webhookHandlerPerson(event.type, event.data.object)
+    // StripeUtils.webhookHandlerPerson(event.type, event.data.object)
     break
   case 'capability.updated':
-    StripeUtils.webhookHandlerCapability(event.type, event.data.object)
+    // StripeUtils.webhookHandlerCapability(event.type, event.data.object)
     break
   default:
     // Unexpected event type
