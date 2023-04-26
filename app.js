@@ -22,13 +22,13 @@ app.use(json())
 
 // CORS - must set headers before routes
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', `http:${process.env.SITE_DOMAIN}`)
+  res.header('Access-Control-Allow-Origin', `${process.env.SITE_DOMAIN}`)
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   )
   if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Origin', `http:${process.env.SITE_DOMAIN}`)
+    res.header('Access-Control-Allow-Origin', `${process.env.SITE_DOMAIN}`)
     // Methods our API supports
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, GET, DELETE')
     return res.status(200).json({})
