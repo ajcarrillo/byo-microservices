@@ -52,7 +52,7 @@ const uploadImageController = multer({
       const uuid = await Auth.createUniqueID()
       const sha1 = Auth.generateAddress(`${req.user.address}-${uuid}`)
 
-      cb(null, `${sha1}${path.extname(file.originalname)}`)
+      cb(null, `${process.env.PROTEUS_BUCKET_CONTROLLER_IMAGES_FOLDER}/${sha1}${path.extname(file.originalname)}`)
     },
     limits: {
       fileSize: 1024 * 1024 * 5, // 5MB
