@@ -60,8 +60,7 @@ const createProteusController = async (req, res, _next) => {
     const response = await Proteus.newProteusController(
       req.user.uid,
       req.file.originalname,
-      req.file.filename,
-      req.file.destination,
+      req.file.key,
       req.file.size.toString(),
       req.file.mimetype,
       req.body.controllerName,
