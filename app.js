@@ -6,6 +6,7 @@ import authRoutes from './api/controllers/auth.js'
 import controllerRoutes from './api/controllers/controllers.js'
 import proteusRoutes from './api/controllers/proteus.js'
 import shopRoutes from './api/controllers/shop.js'
+import userProfileRoutes from './api/controllers/user-profile.js'
 
 const app = express()
 
@@ -42,6 +43,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/controllers', controllerRoutes)
 app.use('/api/proteus', proteusRoutes)
 app.use('/api/shop', shopRoutes)
+app.use('/api/user', userProfileRoutes)
 
 // Route error handling
 app.use((req, res, next) => {

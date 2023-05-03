@@ -72,6 +72,9 @@ const signIn = async (req, res, _next) => {
       message: 'OK',
       data: {
         token: user.token,
+        address: user.address,
+        userName: user.userName,
+        localisation: user.localisation,
       },
     })
   } catch (err) {
