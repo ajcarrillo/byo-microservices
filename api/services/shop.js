@@ -4,7 +4,7 @@ import { removeHTMLTags } from '../sanitisers/input-sanitisers.js'
 import * as Shop from '../../lib/shop-lib.js'
 
 /**
- * Auth endpoint heartbeat
+ * Shop endpoint heartbeat
  * @param {Express.Request} _req
  * @param {Express.Response} res
  * @param {*} _next
