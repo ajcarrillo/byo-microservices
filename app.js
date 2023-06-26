@@ -1,12 +1,15 @@
 import express, { static as isStatic, raw, urlencoded, json } from 'express'
 import morgan from 'morgan'
 
+import adminRoutes from './api/controllers/admin.js'
+import mediaRoutes from './api/controllers/media.js'
 import stripeRoutes from './api/controllers/stripe.js'
 import authRoutes from './api/controllers/auth.js'
 import controllerRoutes from './api/controllers/controllers.js'
 import proteusRoutes from './api/controllers/proteus.js'
 import shopRoutes from './api/controllers/shop.js'
 import userProfileRoutes from './api/controllers/user-profile.js'
+import communityRoutes from './api/controllers/community.js'
 
 const app = express()
 
@@ -38,12 +41,15 @@ app.use((req, res, next) => {
 })
 
 // API Routes
+app.use('/api/admin', adminRoutes)
+app.use('/api/media', mediaRoutes)
 app.use('/api/stripe', stripeRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/controllers', controllerRoutes)
 app.use('/api/proteus', proteusRoutes)
 app.use('/api/shop', shopRoutes)
 app.use('/api/user', userProfileRoutes)
+app.use('/api/community', communityRoutes)
 
 // Route error handling
 app.use((req, res, next) => {
