@@ -1,0 +1,1 @@
+The folder where shop product images are stored.
