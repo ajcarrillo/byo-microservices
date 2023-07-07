@@ -11,12 +11,15 @@ import {
 } from '../services/admin.js'
 import {
   createShopGroup,
+  updateShopGroup,
   createShopProductImage,
   createShopProductFile,
   createShopProduct,
+  updateShopProduct,
   getAdminOrders,
   getAdminOrdersByDateRange,
   updateOrderStatus,
+  getAdminShopProduct,
 } from '../services/shop.js'
 
 // eslint-disable-next-line new-cap
@@ -28,11 +31,18 @@ router.get('/shop/orders', checkAuth, checkAdmin, getAdminOrders)
 router.post('/shop/orders', checkAuth, checkAdmin, getAdminOrdersByDateRange)
 router.post('/shop/order/status/update', checkAuth, checkAdmin, updateOrderStatus)
 router.post(
-  '/shop/new-group',
+  '/shop/group/new',
   checkAuth,
   checkAdmin,
   uploadImageShopGroup.single('shopGroupImage'),
   createShopGroup,
+)
+router.post(
+  '/shop/group/update',
+  checkAuth,
+  checkAdmin,
+  uploadImageShopGroup.single('shopGroupImage'),
+  updateShopGroup,
 )
 router.post(
   '/shop/product/image/upload',
@@ -53,6 +63,18 @@ router.post(
   checkAuth,
   checkAdmin,
   createShopProduct,
+)
+router.post(
+  '/shop/product/update',
+  checkAuth,
+  checkAdmin,
+  updateShopProduct,
+)
+router.get(
+  '/shop/product/:address',
+  checkAuth,
+  checkAdmin,
+  getAdminShopProduct,
 )
 
 export default router
