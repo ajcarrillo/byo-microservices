@@ -15,6 +15,7 @@
   "author": "mark@byowave.com",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "7.7.0",
     "aws-sdk": "2.1362.0",
     "bcrypt": "5.1.0",
     "env-cmd": "10.1.0",
@@ -26,7 +27,6 @@
     "multer-s3": "2.10.0",
     "mysql2": "3.2.3",
     "node-uuid": "1.4.8",
-    "nodemailer": "6.9.1",
     "s3-streamlogger": "1.9.0",
     "stripe": "11.17.0",
     "winston": "3.8.2"
