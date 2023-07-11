@@ -5,6 +5,7 @@ import checkAdmin from '../middleware/check-admin.js'
 import uploadImageShopGroup from '../middleware/upload-image-shop-group.js'
 import uploadImageShopProduct from '../middleware/upload-image-shop-product.js'
 import uploadFileShopProduct from '../middleware/upload-file-shop-product.js'
+import uploadPdfDocument from '../middleware/upload-pdf-document.js'
 import {
   accessRequest,
   heartbeat,
@@ -21,6 +22,7 @@ import {
   updateOrderStatus,
   getAdminShopProduct,
 } from '../services/shop.js'
+import { createNewDocument, updateDocument } from '../services/media.js'
 
 // eslint-disable-next-line new-cap
 const router = Router()
@@ -75,6 +77,20 @@ router.get(
   checkAuth,
   checkAdmin,
   getAdminShopProduct,
+)
+router.post(
+  '/document/new',
+  checkAuth,
+  checkAdmin,
+  uploadPdfDocument.single('documentFile'),
+  createNewDocument,
+)
+router.post(
+  '/document/update',
+  checkAuth,
+  checkAdmin,
+  uploadPdfDocument.single('documentFile'),
+  updateDocument,
 )
 
 export default router
