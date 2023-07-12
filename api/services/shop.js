@@ -67,7 +67,39 @@ const getShopProduct = async (req, res, _next) => {
   }
 
   try {
-    const product = await Shop.getShopProductByAddress(req.params.address)
+    const product = await Shop.getShopProductByAddress(req.params.address, false)
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: { product },
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
+ * Returns a shop product by address for editing
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const getAdminShopProduct = async (req, res, _next) => {
+  await param('address').isAlphanumeric().not().isEmpty().trim().escape().run(req)
+
+  const validationErr = validationResult(req)
+  if (!validationErr.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      message: validationErr.array(),
+    })
+  }
+
+  try {
+    const product = await Shop.getShopProductByAddress(req.params.address, true)
     res.status(200).json({
       status: 200,
       message: 'OK',
@@ -481,6 +513,57 @@ const createShopGroup = async (req, res, _next) => {
 }
 
 /**
+ * Updates a shop group
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const updateShopGroup = async (req, res, _next) => {
+  await check('address').isAlphanumeric().not().isEmpty().trim().escape().run(req)
+  await check('name').not().isEmpty().trim().customSanitizer(removeHTMLTags).run(req)
+  await check('description').not().isEmpty().trim().customSanitizer(removeHTMLTags).run(req)
+  await check('replaceGroupImage').custom((value) => {
+    if (value === 'true' || value === 'false') {
+      return true
+    } else {
+      return false
+    }
+  }).not().isEmpty().run(req)
+
+  const validationErr = validationResult(req)
+  if (!validationErr.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      message: validationErr.array(),
+    })
+  }
+
+  try {
+    await Shop.updateExistingShopGroup(
+      req.body.address,
+      req.body.name,
+      req.body.description,
+      req.body.replaceGroupImage === 'true' ? true : false,
+      req.file ? req.file.originalname : '',
+      req.file ? req.file.key : '',
+      req.file ? req.file.size.toString() : '',
+      req.file ? req.file.mimetype : '',
+    )
+
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: {},
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
  * Creates a shop product
  * @param {Express.Request} req
  * @param {Express.Response} res
@@ -522,6 +605,69 @@ const createShopProduct = async (req, res, _next) => {
       req.body.productImages,
       req.body.productGroups,
       req.body.productFile,
+    )
+
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: {},
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
+ * Updates a shop product
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const updateShopProduct = async (req, res, _next) => {
+  await check('metaTitle').isLength({ min: 1, max: 128 }).customSanitizer(removeHTMLTags).run(req)
+  await check('metaDescription').isLength({ min: 1, max: 256 }).customSanitizer(removeHTMLTags).run(req)
+  await check('metaKeywords').isLength({ min: 1, max: 256 }).customSanitizer(removeHTMLTags).run(req)
+  await check('productAddress').isAlphanumeric().not().isEmpty().trim().escape().run(req)
+  await check('productCode').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productName').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productDescription').isLength({ min: 1, max: 1000 }).run(req)
+  await check('productPrice').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productStockLevel').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productDispatchTime').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productImages').optional({checkFalsy: true}).customSanitizer(removeHTMLTags).run(req)
+  await check('existingProductImages').optional({checkFalsy: true}).customSanitizer(removeHTMLTags).run(req)
+  await check('productGroups').not().isEmpty().customSanitizer(removeHTMLTags).run(req)
+  await check('productFile').optional({checkFalsy: true}).customSanitizer(removeHTMLTags).run(req)
+  await check('existingProductFile').optional({checkFalsy: true}).customSanitizer(removeHTMLTags).run(req)
+
+  const validationErr = validationResult(req)
+  if (!validationErr.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      message: validationErr.array(),
+    })
+  }
+
+  try {
+    await Shop.updateExistingShopProduct(
+      req.body.metaTitle,
+      req.body.metaDescription,
+      req.body.metaKeywords,
+      req.body.productAddress,
+      req.body.productCode,
+      req.body.productName,
+      req.body.productDescription,
+      req.body.productPrice,
+      req.body.productStockLevel,
+      req.body.productDispatchTime,
+      req.body.productImages ? req.body.productImages : '',
+      req.body.existingProductImages ? req.body.existingProductImages : '',
+      req.body.productGroups,
+      req.body.productFile ? req.body.productFile : '',
+      req.body.existingProductFile ? req.body.existingProductFile : '',
     )
 
     res.status(200).json({
@@ -595,9 +741,11 @@ const createShopProductFile = async (req, res, _next) => {
 
 export {
   createShopProduct,
+  updateShopProduct,
   createShopProductImage,
   createShopProductFile,
   createShopGroup,
+  updateShopGroup,
   createSalesTransaction,
   getCountryList,
   getAmericanStatesList,
@@ -609,6 +757,7 @@ export {
   getShopGroupProducts,
   getShopProductsNames,
   getShopProduct,
+  getAdminShopProduct,
   getShopGroups,
   heartbeat,
   updateOrderStatus,

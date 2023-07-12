@@ -5,19 +5,24 @@ import checkAdmin from '../middleware/check-admin.js'
 import uploadImageShopGroup from '../middleware/upload-image-shop-group.js'
 import uploadImageShopProduct from '../middleware/upload-image-shop-product.js'
 import uploadFileShopProduct from '../middleware/upload-file-shop-product.js'
+import uploadPdfDocument from '../middleware/upload-pdf-document.js'
 import {
   accessRequest,
   heartbeat,
 } from '../services/admin.js'
 import {
   createShopGroup,
+  updateShopGroup,
   createShopProductImage,
   createShopProductFile,
   createShopProduct,
+  updateShopProduct,
   getAdminOrders,
   getAdminOrdersByDateRange,
   updateOrderStatus,
+  getAdminShopProduct,
 } from '../services/shop.js'
+import { createNewDocument, updateDocument } from '../services/media.js'
 
 // eslint-disable-next-line new-cap
 const router = Router()
@@ -28,11 +33,18 @@ router.get('/shop/orders', checkAuth, checkAdmin, getAdminOrders)
 router.post('/shop/orders', checkAuth, checkAdmin, getAdminOrdersByDateRange)
 router.post('/shop/order/status/update', checkAuth, checkAdmin, updateOrderStatus)
 router.post(
-  '/shop/new-group',
+  '/shop/group/new',
   checkAuth,
   checkAdmin,
   uploadImageShopGroup.single('shopGroupImage'),
   createShopGroup,
+)
+router.post(
+  '/shop/group/update',
+  checkAuth,
+  checkAdmin,
+  uploadImageShopGroup.single('shopGroupImage'),
+  updateShopGroup,
 )
 router.post(
   '/shop/product/image/upload',
@@ -53,6 +65,32 @@ router.post(
   checkAuth,
   checkAdmin,
   createShopProduct,
+)
+router.post(
+  '/shop/product/update',
+  checkAuth,
+  checkAdmin,
+  updateShopProduct,
+)
+router.get(
+  '/shop/product/:address',
+  checkAuth,
+  checkAdmin,
+  getAdminShopProduct,
+)
+router.post(
+  '/document/new',
+  checkAuth,
+  checkAdmin,
+  uploadPdfDocument.single('documentFile'),
+  createNewDocument,
+)
+router.post(
+  '/document/update',
+  checkAuth,
+  checkAdmin,
+  uploadPdfDocument.single('documentFile'),
+  updateDocument,
 )
 
 export default router
