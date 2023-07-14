@@ -82,6 +82,43 @@ const getShopProduct = async (req, res, _next) => {
 }
 
 /**
+ * Returns a free shop product file address
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {*} _next
+ */
+const getFreeShopProductFile = async (req, res, _next) => {
+  await param('address').isAlphanumeric().not().isEmpty().trim().escape().run(req)
+
+  const validationErr = validationResult(req)
+  if (!validationErr.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      message: validationErr.array(),
+    })
+  }
+
+  try {
+    let fileAddress = null
+    const product = await Shop.getShopProductByAddress(req.params.address, true)
+
+    if (product.productPrice === '0.00' && product.productFile) {
+      fileAddress = product.productFile.address
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'OK',
+      data: { fileAddress },
+    })
+  } catch (err) {
+    res.status(422).json({
+      status: 422,
+      message: err.message,
+    })
+  }
+}
+
+/**
  * Returns a shop product by address for editing
  * @param {Express.Request} req
  * @param {Express.Response} res
@@ -757,6 +794,7 @@ export {
   getShopGroupProducts,
   getShopProductsNames,
   getShopProduct,
+  getFreeShopProductFile,
   getAdminShopProduct,
   getShopGroups,
   heartbeat,
