@@ -15,5 +15,6 @@ router.get('/', heartbeat)
 router.get('/documents', getDocumentDownloads)
 router.get('/download/document/file/:address', downloadDocumentFile)
 router.get('/download/product/file/:address', checkAuth, downloadProductFile)
+router.get('/download/free/product/file/:address', downloadProductFile)
 
 export default router

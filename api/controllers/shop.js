@@ -10,6 +10,7 @@ import {
   getCustomerOrders,
   getShopGroupProducts,
   getShopProductsNames,
+  getFreeShopProductFile,
   getShopProduct,
   getShopGroups,
   heartbeat,
@@ -24,6 +25,7 @@ router.get('/american-states', getAmericanStatesList)
 router.get('/products/group/:address', getShopGroupProducts)
 router.get('/products/names', getShopProductsNames)
 router.get('/product/:address', getShopProduct)
+router.get('/product/free/:address/file', getFreeShopProductFile)
 router.get('/groups', getShopGroups)
 router.get('/customer/details', checkAuth, getCustomerDetails)
 router.post('/customer/details', checkAuth, saveCustomerDetails)
